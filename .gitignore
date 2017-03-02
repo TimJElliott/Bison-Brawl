@@ -1,2 +1,5 @@
-Library
-Temp
+#Don't be an idiot. Remember to do "git rm -r --cached ." to make
+#the gitignore file take action
+
+Library/
+Temp/
