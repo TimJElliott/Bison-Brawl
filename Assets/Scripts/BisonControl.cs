@@ -28,7 +28,7 @@ public class BisonControl : MonoBehaviour
         isSpawning = true;
         rb = GetComponent<Rigidbody2D>();
         trans = GetComponent<Transform>();
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		playerTransform = FindObjectOfType<PlayerControl> ().transform;
     }
 
     // Update is called once per frame
