@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent (typeof (Rigidbody2D))]
 public class BisonControl : MonoBehaviour
 {
     public float moveSpeed = 0.125f;
