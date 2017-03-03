@@ -44,7 +44,7 @@ public class SnapToPixelGrid : MonoBehaviour {
 		}
 
 		//If all failsafes have passed, proceed to set the new position of the SpriteObject using the SnapVectorToPixel method
-		SpriteObject.transform.position = SnapVectorToPixel (transform.position, PixelsPerUnit) + ((Offset * PixelsPerUnit) / 256); //Divide by 512 for some uknown reason. It works though ¯\_(ツ)_/¯
+		SpriteObject.transform.position = SnapVectorToPixel (transform.position, PixelsPerUnit) + ((Offset * PixelsPerUnit) / Mathf.Pow (PixelsPerUnit, 2)); //Divide by 512 for some uknown reason. It works though ¯\_(ツ)_/¯---- Turns out you're supposed to divide by the pixelsperunit squared. that's why i got 512 but 10 for using 10 ppi
 
 	}
 
