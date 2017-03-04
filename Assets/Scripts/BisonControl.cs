@@ -21,13 +21,11 @@ public class BisonControl : MonoBehaviour
     private Transform playerTransform;
 
     Rigidbody2D rb;
-    Transform trans;
     // Use this for initialization
     void Start()
     {
         isSpawning = true;
         rb = GetComponent<Rigidbody2D>();
-        trans = GetComponent<Transform>();
 		playerTransform = FindObjectOfType<PlayerControl> ().transform;
     }
 
@@ -41,7 +39,7 @@ public class BisonControl : MonoBehaviour
             isSpawning = false;
         }
 
-        float distance = Vector3.Distance(playerTransform.position, trans.position);
+		float distance = Vector3.Distance(playerTransform.position, transform.position);
         if (distance < distanceToFlee && !isSpawning && !isFinishing)
         {
             isRunning = true;
@@ -54,7 +52,7 @@ public class BisonControl : MonoBehaviour
 
         if (isSpawning)
         {
-            GetComponent<Collider2D>().enabled = false;
+            //GetComponent<Collider2D>().enabled = false;
             rb.velocity = Vector2.down * spawnSpeed;
         }
 
@@ -85,8 +83,18 @@ public class BisonControl : MonoBehaviour
    
     private void Move()
     {
-        GetComponent<Collider2D>().enabled = true;
+		/*
+		 * This is not optimal
+		 * as if you ever want to
+		 * disable the collider,
+		 * this will re-enable it
+		 * regardless of any outside
+		 * actions.
+		 * 
+		 * I suggest you use Physics2D.IgnoreCollision (coll A, coll B, bool ignore);
+		 */
 
+        //GetComponent<Collider2D>().enabled = true;
 
         Vector2 dir = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         dir = Vector3.Normalize(dir);
@@ -112,7 +120,7 @@ public class BisonControl : MonoBehaviour
     {
         Vector3 run = transform.position - playerTransform.position;
         run.Normalize();
-        float runSpeed = speedConst / (Vector3.Distance(playerTransform.position, trans.position));
+		float runSpeed = speedConst / (Vector3.Distance(playerTransform.position, transform.position));
         rb.velocity = run * runSpeed;
     }
 
@@ -133,8 +141,17 @@ public class BisonControl : MonoBehaviour
         if(collision.tag == "Barn" )
         {
               isFinishing = true;
-            trans.position = collision.gameObject.transform.position;
-        }
+
+			/*
+			 * This will make the bison "teleport" to the barn, which won't look good.
+			 * I suggest you create a SetDestination method that takes a vector3 and makes
+			 * a boolean true until the bison reaches the destination.
+			*/
+
+			transform.position = collision.gameObject.transform.position;
+       
+		}
         
     }
+
 }
