@@ -22,6 +22,7 @@ public class BisonControl : MonoBehaviour
 
     private Transform playerTransform;
 	private Animator anim;
+	private List<Collider2D> IgnoredColliders = new List<Collider2D> ();
 
     Rigidbody2D rb;
     // Use this for initialization
@@ -58,7 +59,12 @@ public class BisonControl : MonoBehaviour
         {
             //GetComponent<Collider2D>().enabled = false;
             rb.velocity = Vector2.down * spawnSpeed;
-        }
+		} else
+			while (IgnoredColliders.Count > 0) {
+				//Make sure the colliders that were ignored on spawn are not ignored anymore
+				Physics2D.IgnoreCollision (GetComponent<Collider2D> (), IgnoredColliders [0], false);
+				IgnoredColliders.RemoveAt (0);
+			}
 
         if(isFinishing)
         {
@@ -174,5 +180,15 @@ public class BisonControl : MonoBehaviour
 		}
         
     }
+
+	public void OnCollisionEnter2D (Collision2D coll) {
+
+		//If the bison comes in contact with any fences when it spawns, ignore them (until the spawning grace period ends)
+		if (isSpawning && coll.gameObject.name.Contains ("Fence")) {
+			Physics2D.IgnoreCollision (GetComponent<Collider2D> (), coll.collider, true);
+			IgnoredColliders.Add (coll.collider);
+		}
+
+	}
 
 }
