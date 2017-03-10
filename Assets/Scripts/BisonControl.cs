@@ -16,16 +16,20 @@ public class BisonControl : MonoBehaviour
     public bool isSpawning = true;
     public bool isFinishing = false;
     public bool isRunning = false;
+	public SpriteRenderer shadowHRenderer;
+	public SpriteRenderer shadowVRenderer;
     public float distanceToFlee;
 
     private Transform playerTransform;
+	private Animator anim;
 
     Rigidbody2D rb;
     // Use this for initialization
     void Start()
     {
         isSpawning = true;
-        rb = GetComponent<Rigidbody2D>();
+		rb = GetComponent<Rigidbody2D> ();
+		anim = GetComponentInChildren<Animator> ();
 		playerTransform = FindObjectOfType<PlayerControl> ().transform;
     }
 
@@ -77,6 +81,23 @@ public class BisonControl : MonoBehaviour
             Flee();
         }
 
+		if (rb.velocity.y > Mathf.Abs (rb.velocity.x))
+			anim.SetBool ("Up", true);
+		else
+			anim.SetBool ("Up", false);
+
+		if (rb.velocity.y < -Mathf.Abs (rb.velocity.x))
+			anim.SetBool ("Down", true);
+		else
+			anim.SetBool ("Down", false);
+
+		if (rb.velocity.y > Mathf.Abs (rb.velocity.x) || rb.velocity.y < -Mathf.Abs (rb.velocity.x)){
+			shadowHRenderer.enabled = false;
+			shadowVRenderer.enabled = true;
+		} else {
+			shadowHRenderer.enabled = true;
+			shadowVRenderer.enabled = false;
+		}
 
     } 
 
