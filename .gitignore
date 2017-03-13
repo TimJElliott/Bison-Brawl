@@ -3,7 +3,7 @@
 
 #Ignore the following folders:
 Library/
-~Library/metadata/
+!Library/metadata/
 Temp/
 
 #Ignore files ending with:
