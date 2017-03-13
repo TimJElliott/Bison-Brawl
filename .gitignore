@@ -2,9 +2,9 @@
 #the gitignore file take action
 
 #Ignore the following folders:
-Library/
-!Library/metadata/
-Temp/
+/Library/
+!/Library/metadata/
+/Temp/
 
 #Ignore files ending with:
 *.sln
