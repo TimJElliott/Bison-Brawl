@@ -16,3 +16,6 @@
 *.suo
 *.userprefs
 *.pidb
+
+#Always have an exception for .meta file
+!*.*.meta
